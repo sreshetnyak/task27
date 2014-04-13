@@ -10,4 +10,8 @@
 
 @interface TTViewController : UIViewController
 
+@property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *infoTextField;
+@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *infoLabel;
+- (IBAction)textChange:(id)sender;
+
 @end
