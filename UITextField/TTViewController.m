@@ -22,7 +22,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	// Do any additional setup after loading the view, typically from a nib
+    
     for (UITextField *field in self.infoTextField) {
         field.delegate = self;
     }
@@ -32,8 +33,7 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -128,13 +128,15 @@
 - (void)animateTextField:(UITextField*)textField up:(BOOL)up {
     
     CGFloat hight = textField.frame.origin.y;
+    NSLog(@"%f",hight);
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat maxHight = screenRect.size.height;
+    NSLog(@"%f",maxHight);
     
-    if (hight > maxHight/2) {
+    if (hight > KEYBOARD_SIZE + maxHight/5) {
         
-        const int movementDistance = - hight + KEYBOARD_SIZE;
+        const int movementDistance = - (KEYBOARD_SIZE + 50 - (maxHight - hight));
         
         int movement = (up ? movementDistance : -movementDistance);
         
@@ -219,17 +221,13 @@
 
     NSLog(@"%@",string);
     NSLog(@"%lu",(unsigned long)[string rangeOfString:@"@"].location);
+    NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@".ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@0123456789!#$%&'*+-/=?^_`{|}~"] invertedSet];
+    NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
     
     if ([textField.text rangeOfString:@"@"].location == NSNotFound && [string rangeOfString:@"@"].location != NSNotFound) {
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@".ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@0123456789!#$%&'*+-/=?^_`{|}~"] invertedSet];
-        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
-        
         return [string isEqualToString:filtered];
         
     } else if ([string rangeOfString:@"@"].location == NSNotFound) {
-        
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@".ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@0123456789!#$%&'*+-/=?^_`{|}~"] invertedSet];
-        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
         
         return [string isEqualToString:filtered];
     } else {
